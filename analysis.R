@@ -22,7 +22,7 @@ visualization_frame <-
 
 mylist <-
   visualization_frame %>%
-  mutate(year2 = year, Region = as_factor(Region)) %>%
+  mutate(year2 = year, Region = as_factor(Region, levels=c("Northeast", "South", "Midwest", "West"))) %>%
   nest(-year) %>%
   pull(data)
 
@@ -51,10 +51,12 @@ myplot<-function(i){
     ) +
     geom_bar(stat="identity", position="stack") +
     theme_minimal() +
-    ggtitle(paste("Distribution by Income Level:", year), "by % of total state population") +
+    ggtitle(paste("Distribution by Income Level:", year),
+            "by percentage of total state population in thousands of dollars") +
     xlab("") +
-    ylab("% of Population") +
-    ylim(0, .5)
+    ylab("") +
+    ylim(0, .5) +
+    scale_fill_brewer(palette = "Set2")
 
   return(g)
 }
